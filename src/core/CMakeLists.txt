@@ -15,7 +15,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets Help)
-find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core Gui Widgets Help)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Widgets Help)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Help)
 
 set(HEADERS         
