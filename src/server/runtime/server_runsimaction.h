@@ -25,6 +25,7 @@
 
 #include <QtMath>
 #include <QVariant>
+#include <QRandomGenerator>
 
 #include <mbcore.h>
 #include <project/server_simaction.h>
@@ -156,7 +157,7 @@ public:
     {
         if (((time-this->m_last) >= this->m_period))
         {
-            qreal x = static_cast<qreal>(RAND_MAX-qrand())/static_cast<qreal>(RAND_MAX); // koef is [0;1]
+            qreal x = static_cast<qreal>(RAND_MAX-QRandomGenerator::global()->generate())/static_cast<qreal>(RAND_MAX); // koef is [0;1]
             T v = static_cast<T>(x*m_range+m_min);
             mbServerRunSimAction::trySwap(&v, sizeof(v));
             this->setValue(v);

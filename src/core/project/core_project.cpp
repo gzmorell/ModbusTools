@@ -23,6 +23,7 @@
 #include "core_project.h"
 
 #include <QFileInfo>
+#include <QRegularExpression>
 
 #include "core_port.h"
 #include "core_device.h"
@@ -122,10 +123,13 @@ QString mbCoreProject::freePortName(const QString &s) const
     QString ret = s.trimmed();
     if (ret.isEmpty())
         ret = mbCorePort::Defaults::instance().name;
-    QRegExp re("^(.*)(\\d+)$");
+    // QRegExp re("^(.*)(\\d+)$");
+    QRegularExpression re("^(.*)(\\d+)$");
+    QRegularExpressionMatch match;
+    
     QString tn = ret;
-    if (ret.contains(re))
-        tn = re.cap(1);
+    if (ret.contains(re,&match))
+        tn = match.captured(1);
     int c = 1;
 
     while (hasPort(ret))
@@ -190,10 +194,11 @@ QString mbCoreProject::freeDeviceName(const QString &s) const
     QString ret = s.trimmed();
     if (ret.isEmpty())
         ret = mbCoreDevice::Defaults::instance().name;
-    QRegExp re("^(.*)(\\d+)$");
+    QRegularExpression re("^(.*)(\\d+)$");
+    QRegularExpressionMatch match;
     QString tn = ret;
-    if (ret.contains(re))
-        tn = re.cap(1);
+    if (ret.contains(re, &match))
+        tn = match.captured(1);
     int c = 1;
 
     while (hasDevice(ret))
@@ -258,10 +263,11 @@ QString mbCoreProject::freeDataViewName(const QString &s) const
     QString ret = s.trimmed();
     if (ret.isEmpty())
         ret = mbCoreDataView::Defaults::instance().name;
-    QRegExp re("^(.*)(\\d+)$");
+    QRegularExpression re("^(.*)(\\d+)$");
+    QRegularExpressionMatch match;
     QString tn = ret;
-    if (ret.contains(re))
-        tn = re.cap(1);
+    if (ret.contains(re, &match))
+        tn = match.captured(1);
     int c = 1;
 
     while (hasDataView(ret))
@@ -373,10 +379,11 @@ QString mbCoreProject::freeTaskName(const QString &s)
     QString ret = s.trimmed();
     if (ret.isEmpty())
         ret = "dev";
-    QRegExp re("^(.*)(\\d+)$");
+    QRegularExpression re("^(.*)(\\d+)$");
+    QRegularExpressionMatch match;
     QString tn = ret;
-    if (ret.contains(re))
-        tn = re.cap(1);
+    if (ret.contains(re, &match))
+        tn = match.captured(1);
     int c = 1;
 
     while (hasTask(ret))

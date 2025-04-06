@@ -184,7 +184,7 @@ int mbCoreAddressWidget::SpinBox::valueFromText(const QString &text) const
     if (m_hex)
     {
         if (text.back() == mb::Strings::instance().IEC61131SuffixHex)
-            return text.midRef(0, text.length()-1).toInt(nullptr, 16);
+            return QStringView(text).mid(0, text.length()-1).toInt(nullptr, 16);
         else
             return text.toInt(nullptr, 16);
     }

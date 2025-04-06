@@ -24,7 +24,7 @@
 #include "ui_client_dialogdevice.h"
 
 #include <QMetaEnum>
-#include <QTextCodec>
+// #include <QTextCodec>
 #include <QIntValidator>
 
 #include <ModbusQt.h>

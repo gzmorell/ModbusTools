@@ -77,7 +77,13 @@ mbServerSimActionsUi::mbServerSimActionsUi(QWidget *parent) : QWidget(parent)
     m_view->setStyleSheet(headerStyleSheet);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    // layout->setMargin(0);
+    QMargins margins;
+    margins.setBottom(0);
+    margins.setTop(0);
+    margins.setRight(0);
+    margins.setLeft(0);
+    layout->setContentsMargins(margins);
     layout->addWidget(m_view);
 }
 

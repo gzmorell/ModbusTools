@@ -69,7 +69,7 @@ private:
     void parseWord(const QString &text);
     void parseNumber(const QString &text);
     bool parseString(const QString &text);
-    bool moveToStringEnd(const QString &text);
+    bool moveToStringEnd(const QStringView &text);
     inline int getTokenLength() const { return m_pos - m_begin; }
     inline QString getToken(const QString &text) const { return text.mid(m_begin, getTokenLength()); }
 

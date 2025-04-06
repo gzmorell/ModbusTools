@@ -22,7 +22,7 @@
 */
 #include "core_dialogdevice.h"
 
-#include <QTextCodec>
+// #include <QTextCodec>
 
 #include <QLineEdit>
 #include <QSpinBox>
@@ -132,8 +132,8 @@ void mbCoreDialogDevice::initializeBaseUi()
 
     // String Encoding
     cmb = m_ui.cmbStringEncoding;
-    QList<QByteArray> codecs = QTextCodec::availableCodecs();
-    Q_FOREACH (const QByteArray &s, codecs)
+    auto codecs = QStringConverter::availableCodecs();
+    for(const auto &s: codecs)
         cmb->addItem(s);
 
     connect(m_ui.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));

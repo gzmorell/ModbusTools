@@ -516,7 +516,7 @@ MB_EXPORT mb::Address toAddress(int address);
 MB_EXPORT int toInt(const mb::Address& address);
 
 // convert string representation of address to struct 'Address'
-MB_EXPORT mb::Address toAddress(const QString& address);
+MB_EXPORT mb::Address toAddress(const QStringView& address);
 
 // convert struct 'Address' to string representation of address
 MB_EXPORT QString toString(const mb::Address& address, mb::AddressNotation notation = mb::Address_Modbus);
@@ -643,7 +643,7 @@ MB_EXPORT QVariant toVariant(const QByteArray &v,
                              int variableLength);
 
 MB_EXPORT QString escapeSequence(const QString &src);
-MB_EXPORT QString fromEscapeSequence(const QString &esc);
+MB_EXPORT QString fromEscapeSequence(const QStringView &esc);
 
 template<class T>
 QString toBinString(T value)
@@ -652,7 +652,7 @@ QString toBinString(T value)
     QString res(c, '0');
     while (value)
     {
-        res[c-1] = '0' + static_cast<char>(value & 1);
+        res[c-1] = static_cast<QChar>('0' + static_cast<char>(value & 1));
         value >>= 1;
         c--;
     }
@@ -666,7 +666,7 @@ QString toOctString(T value)
     QString res(c, '0');
     while (value)
     {
-        res[c-1] = '0' + static_cast<char>(value & 7);
+        res[c-1] = static_cast<QChar>('0' + static_cast<char>(value & 7));
         value >>= 3;
         c--;
     }
@@ -683,9 +683,9 @@ QString toHexString(T value)
     {
         v = value & 0xF;
         if (v < 10)
-            res[c-1] = '0' + static_cast<char>(v);
+            res[c-1] = static_cast<QChar>('0' + static_cast<char>(v));
         else
-            res[c-1] = 'A' - 10 + static_cast<char>(v);
+            res[c-1] = static_cast<QChar>('A' - 10 + static_cast<char>(v));
         value >>= 4;
         c--;
     }

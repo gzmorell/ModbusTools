@@ -121,16 +121,16 @@ QString mbClientScanner::toShortParityStr(Modbus::Parity v)
 
    Format of string repr of FuncParams: `F1;F2;F3;...;Fn`
  */
-mbClientScanner::FuncParams mbClientScanner::toFuncParams(const QString &sf, bool *ok)
+mbClientScanner::FuncParams mbClientScanner::toFuncParams(const QStringView &sf, bool *ok)
 {
-    QString s = sf.trimmed().toUpper();
+    QString s = sf.trimmed().toString().toUpper();
     bool okInner = false;
     FuncParams f;
     const QString &func_prefix = Strings::instance().func_prefix;
-    if (s.leftRef(func_prefix.size()) == func_prefix)
+    if (s.left(func_prefix.size()) == func_prefix)
     {
         int i = func_prefix.size();
-        int v = s.midRef(i, 2).toInt(&okInner);
+        int v = s.mid(i, 2).toInt(&okInner);
         i += 2;
         if (okInner)
         {

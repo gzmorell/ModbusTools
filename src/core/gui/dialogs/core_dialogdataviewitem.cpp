@@ -30,7 +30,7 @@
 #include <QDialogButtonBox>
 
 #include <QMetaEnum>
-#include <QTextCodec>
+// #include <QTextCodec>
 
 #include <core.h>
 #include <project/core_project.h>
@@ -38,6 +38,7 @@
 #include <project/core_dataview.h>
 
 #include <gui/widgets/core_addresswidget.h>
+#include <qstringconverter_base.h>
 
 mbCoreDialogDataViewItem::Strings::Strings() : mbCoreDialogEdit::Strings(),
     title(QStringLiteral("Item(s)")),
@@ -136,8 +137,8 @@ void mbCoreDialogDataViewItem::initializeBaseUi()
     // String Encoding
     cmb = m_ui.cmbStringEncoding;
     cmb->addItem(mb::Defaults::instance().stringEncodingSpecial);
-    QList<QByteArray> codecs = QTextCodec::availableCodecs();
-    Q_FOREACH (const QByteArray &s, codecs)
+    auto codecs = QStringConverter::availableCodecs();
+    for(const auto &s: codecs)
         cmb->addItem(s);
     cmb->setCurrentIndex(0);
 

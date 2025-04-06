@@ -84,7 +84,8 @@ int mbServerScriptEditor::tabSpaces() const
 void mbServerScriptEditor::setTabSpaces(int spaces)
 {
     m_settings.tabSpaces = spaces;
-    setTabStopWidth(fontMetrics().horizontalAdvance(QLatin1Char('9')) * m_settings.tabSpaces);
+    // setTabStopWidth(fontMetrics().horizontalAdvance(QLatin1Char('9')) * m_settings.tabSpaces);
+    setTabStopDistance(fontMetrics().horizontalAdvance(QLatin1Char('9')) * m_settings.tabSpaces);
 }
 
 QString mbServerScriptEditor::fontString() const

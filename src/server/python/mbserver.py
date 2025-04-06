@@ -6,7 +6,7 @@ More details.
 
 #from typing import Union
 
-from PyQt5.QtCore import QSharedMemory
+from PyQt6.QtCore import QSharedMemory
 
 from ctypes import *
 import struct

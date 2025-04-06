@@ -104,7 +104,7 @@ public:
         uint32_t                timeoutInterByte;
     };
 
-    static FuncParams toFuncParams(const QString &s, bool *ok = nullptr);
+    static FuncParams toFuncParams(const QStringView &s, bool *ok = nullptr);
     static QString toString(const FuncParams &f);
     static Request_t toRequest(const QString &s, bool *ok = nullptr);
     static QString toString(const Request_t &req);

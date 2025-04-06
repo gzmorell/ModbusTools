@@ -23,7 +23,8 @@
 #include "mbcore.h"
 
 #include <QDateTime>
-#include <QTextCodec>
+#include <qhashfunctions.h>
+// #include <QTextCodec>
 
 QString MBTOOLS_VERSION_QSTRING(MBTOOLS_VERSION_STR);
 
@@ -255,9 +256,9 @@ int toInt(const Address &address)
     return address.type*DIVIDER+address.offset+1;
 }
 
-Address toAddress(const QString &address)
+Address toAddress(const QStringView &address)
 {
-    if (address.count() && address.at(0) == '%')
+    if (address.size() && address.at(0) == '%')
     {
         const Strings &s = Strings::instance();
         Address adr;
@@ -287,9 +288,9 @@ Address toAddress(const QString &address)
             return Address();
         QChar suffix = address.back();
         if (suffix == s.IEC61131SuffixHex)
-            adr.offset = static_cast<quint16>(address.midRef(i, address.length()-i-1).toInt(nullptr, 16));
+            adr.offset = static_cast<quint16>(address.mid(i, address.length()-i-1).toInt(nullptr, 16));
         else
-            adr.offset = static_cast<quint16>(address.midRef(i).toInt());
+            adr.offset = static_cast<quint16>(address.mid(i).toInt());
         return adr;
     }
     return toAddress(address.toInt());
@@ -828,7 +829,8 @@ QByteArray toByteArray(const QVariant &value, Format format, Modbus::MemoryType 
     case String:
     {
         const int cBytes = variableLength;
-        QTextCodec *codec = QTextCodec::codecForName(stringEncoding);
+        // QTextCodec *codec = QTextCodec::codecForName(stringEncoding);
+        auto codec = QStringEncoder(stringEncoding);
         QString s = fromEscapeSequence(value.toString());
         if (stringLengthType == ZerroEnded)
         {
@@ -838,7 +840,8 @@ QByteArray toByteArray(const QVariant &value, Format format, Modbus::MemoryType 
             else
                 s = s.left(index+1);
         }
-        data = codec->fromUnicode(s);
+        // data = codec->fromUnicode(s);
+        data = codec(s);
         if ((stringLengthType == FullLength) && data.length() < cBytes)
             data.append(cBytes-data.length(), '\0');
         else if (data.length() > cBytes)
@@ -1031,8 +1034,10 @@ QVariant toVariant(const QByteArray &data, Format format, Modbus::MemoryType mem
         break;
     case String:
     {
-        QTextCodec *codec = QTextCodec::codecForName(stringEncoding);
-        QString s = codec->toUnicode(newData);
+        // QTextCodec *codec = QTextCodec::codecForName(stringEncoding);
+        // QString s = codec->toUnicode(newData);
+        auto codec = QStringDecoder(stringEncoding);
+        QString s = codec(newData);
         if (stringLengthType == ZerroEnded)
         {
             int i = s.indexOf(QChar(0));
@@ -1084,7 +1089,7 @@ QString escapeSequence(const QString &src)
     return result;
 }
 
-QString fromEscapeSequence(const QString &esc)
+QString fromEscapeSequence(const QStringView &esc)
 {
     QString result;
 
@@ -1107,7 +1112,7 @@ QString fromEscapeSequence(const QString &esc)
                 if (i + 3 < esc.length())
                 {
                     bool ok;
-                    int hexValue = esc.midRef(i + 2, 2).toInt(&ok, 16);
+                    int hexValue = esc.mid(i + 2, 2).toInt(&ok, 16);
                     if (ok)
                     {
                         result += QChar(hexValue);
@@ -1129,7 +1134,7 @@ QString fromEscapeSequence(const QString &esc)
                 if (i + 5 < esc.length())
                 {
                     bool ok;
-                    int hexValue = esc.midRef(i + 2, 4).toInt(&ok, 16);
+                    int hexValue = esc.mid(i + 2, 4).toInt(&ok, 16);
                     if (ok)
                     {
                         result += QChar(hexValue);

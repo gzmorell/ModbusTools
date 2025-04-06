@@ -28,6 +28,7 @@
 #include <core.h>
 #include <project/core_project.h>
 #include <project/core_port.h>
+#include <qmargins.h>
 
 #include "core_projectmodel.h"
 #include "core_projectdelegate.h"
@@ -59,7 +60,12 @@ mbCoreProjectUi::mbCoreProjectUi(mbCoreProjectModel *model, mbCoreProjectDelegat
     connect(sm, &QItemSelectionModel::selectionChanged, this, &mbCoreProjectUi::selectionChanged);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    QMargins margins;
+    margins.setBottom(0);
+    margins.setTop(0);
+    margins.setRight(0);
+    margins.setLeft(0);
+    layout->setContentsMargins(margins);
     layout->addWidget(m_view);
 }
 

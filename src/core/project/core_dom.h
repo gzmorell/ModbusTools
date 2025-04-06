@@ -85,7 +85,7 @@ public:
     {
         Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
         {
-            QStringRef name = attribute.name();
+            QStringView name = attribute.name();
             reader.raiseError(QStringLiteral("Unexpected attribute ") + name.toString());
         }
 

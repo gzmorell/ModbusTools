@@ -61,7 +61,7 @@ void mbServerDomSimAction::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         reader.raiseWarning(QString("Unexpected attribute '%1'").arg(name.toString()));
     }
 
@@ -204,7 +204,7 @@ void mbServerDomDeviceData::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (name == s.count)
         {
             setCount(attribute.value().toInt());
@@ -332,7 +332,7 @@ void mbServerDomDeviceRef::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (name == s.name)
         {
             setName(attribute.value().toString());

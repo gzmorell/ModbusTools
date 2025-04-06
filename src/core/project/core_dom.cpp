@@ -71,7 +71,7 @@ void mbCoreDomDataViewItem::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         reader.raiseWarning(QString("Unexpected attribute '%1'").arg(name.toString()));
     }
 
@@ -163,7 +163,7 @@ void mbCoreDomDataView::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (name == s.name)
         {
             setName(attribute.value().toString());
@@ -272,7 +272,7 @@ void mbCoreDomDevice::read(mbCoreXmlStreamReader &reader)
 {
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (readAttribute(reader, attribute))
             continue;
         reader.raiseWarning(QString("Unexpected attribute '%1'").arg(name.toString()));
@@ -371,7 +371,7 @@ void mbCoreDomPort::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (readAttribute(reader, attribute))
             continue;
         reader.raiseWarning(QString("Unexpected attribute '%1'").arg(name.toString()));
@@ -469,7 +469,7 @@ void mbCoreDomTaskInfo::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (name == s.name)
         {
             setName(attribute.value().toString());
@@ -572,7 +572,7 @@ void mbCoreDomProject::read(mbCoreXmlStreamReader &reader)
 
     Q_FOREACH (const QXmlStreamAttribute &attribute, reader.attributes())
     {
-        QStringRef name = attribute.name();
+        QStringView name = attribute.name();
         if (name == s.version)
         {
             setVersionStr(attribute.value().toString());

@@ -128,8 +128,8 @@ mbServerScriptHighlighter::ColorFormats mbServerScriptHighlighter::toColorFormat
             ColorFormatType ft = toColorFormatType(params.at(0), &ok);
             if (ok)
             {
-                QColor color;
-                color.setNamedColor(params.at(1));
+                QColor color(params.at(1));
+                // color.setNamedColor(params.at(1));
                 res.insert(ft, color);
             }
         }
@@ -284,9 +284,9 @@ bool mbServerScriptHighlighter::parseString(const QString &text)
     return true;
 }
 
-bool mbServerScriptHighlighter::moveToStringEnd(const QString &text)
+bool mbServerScriptHighlighter::moveToStringEnd(const QStringView &text)
 {
-    while ((++m_pos < m_len) && text.midRef(m_pos, SizeQuotes) != m_quotes)
+    while ((++m_pos < m_len) && text.mid(m_pos, SizeQuotes) != m_quotes)
     {
         if (text.at(m_pos) == '\\')
             ++m_pos;

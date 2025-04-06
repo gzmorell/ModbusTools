@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QMdiArea>
 #include <QMdiSubWindow>
+#include <QFile>
 
 #include <server.h>
 

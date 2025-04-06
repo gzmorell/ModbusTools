@@ -587,7 +587,7 @@ bool mbServerBuilder::exportUInt16Data(QIODevice *buff, const QByteArray &data, 
     return true;
 }
 
-mbServerBuilder::BoolData_t mbServerBuilder::toBoolData(const QString &str, int reserve)
+mbServerBuilder::BoolData_t mbServerBuilder::toBoolData(const QStringView &str, int reserve)
 {
     Strings s = Strings::instance();
 
@@ -598,15 +598,15 @@ mbServerBuilder::BoolData_t mbServerBuilder::toBoolData(const QString &str, int 
     {
         if (str.at(i) == s.sep)
         {
-            r.append(str.midRef(b, i-b).toInt() != 0);
+            r.append(str.mid(b, i-b).toInt() != 0);
             b = i+1;
         }
     }
-    r.append(str.midRef(b).toInt() != 0);
+    r.append(str.mid(b).toInt() != 0);
     return r;
 }
 
-mbServerBuilder::UInt16Data_t mbServerBuilder::toUInt16Data(const QString &str, int reserve)
+mbServerBuilder::UInt16Data_t mbServerBuilder::toUInt16Data(const QStringView &str, int reserve)
 {
     Strings s = Strings::instance();
 
@@ -617,12 +617,12 @@ mbServerBuilder::UInt16Data_t mbServerBuilder::toUInt16Data(const QString &str, 
     {
         if (str.at(i) == s.sep)
         {
-            quint16 v = str.midRef(b, i-b).toUShort();
+            quint16 v = str.mid(b, i-b).toUShort();
             r.append(reinterpret_cast<char*>(&v), sizeof(v));
             b = i+1;
         }
     }
-    quint16 v = str.midRef(b).toUShort();
+    quint16 v = str.mid(b).toUShort();
     r.append(reinterpret_cast<char*>(&v), sizeof(v));
     return r;
 }

@@ -83,7 +83,7 @@ void mbCoreFileManager::setProject(mbCoreProject *project)
         if (!info)
         {
             info = new ProjectInfo;
-            info->id = QUuid::createUuidV5(mbCore::globalCore()->applicationName(), filePath).toString(QUuid::WithoutBraces);
+            info->id = QUuid::createUuidV5(QUuid(mbCore::globalCore()->applicationName()), filePath).toString(QUuid::WithoutBraces);
             info->absPath = filePath;
             addProjectInfo(info);
         }
@@ -230,7 +230,7 @@ QSettings *mbCoreFileManager::getQSettings()
         const Strings &s = Strings::instance();
         QString filePath = m_hiddenProjectsDir.absoluteFilePath(s.filename_projects);
         m_settings = new QSettings(filePath, QSettings::IniFormat, this);
-        m_settings->setIniCodec("UTF-8");
+        // m_settings->setIniCodec("UTF-8");
     }
     return m_settings;
 }

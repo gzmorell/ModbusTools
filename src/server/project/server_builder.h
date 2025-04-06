@@ -132,8 +132,8 @@ public:
     bool exportUInt16Data(QIODevice* buff, const QByteArray &data, int columns, const QChar& sep = Strings::instance().sep);
 
 private:
-    BoolData_t toBoolData(const QString &str, int reserve = MB_MEMORY_MAX_COUNT);
-    UInt16Data_t toUInt16Data(const QString &str, int reserve = MB_MEMORY_MAX_COUNT);
+    BoolData_t toBoolData(const QStringView &str, int reserve = MB_MEMORY_MAX_COUNT);
+    UInt16Data_t toUInt16Data(const QStringView &str, int reserve = MB_MEMORY_MAX_COUNT);
     QString fromBoolData(const BoolData_t &data);
     QString fromUInt16Data(const UInt16Data_t &data);
 
