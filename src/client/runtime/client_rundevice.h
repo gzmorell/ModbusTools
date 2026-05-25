@@ -41,14 +41,16 @@ public:
     mbClientDevice* device() const { return m_device; }
 
 public: // settings
-    inline QString  name                       () const { return m_settings.name                     ; }
-    inline uint8_t  unit                       () const { return m_settings.unit                     ; }
-    inline uint16_t maxReadCoils               () const { return m_settings.maxReadCoils             ; }
-    inline uint16_t maxReadDiscreteInputs      () const { return m_settings.maxReadDiscreteInputs    ; }
-    inline uint16_t maxReadInputRegisters      () const { return m_settings.maxReadInputRegisters    ; }
-    inline uint16_t maxReadHoldingRegisters    () const { return m_settings.maxReadHoldingRegisters  ; }
-    inline uint16_t maxWriteMultipleCoils      () const { return m_settings.maxWriteMultipleCoils    ; }
-    inline uint16_t maxWriteMultipleRegisters  () const { return m_settings.maxWriteMultipleRegisters; }
+    inline QString  name                     () const { return m_settings.name                     ; }
+    inline uint8_t  unit                     () const { return m_settings.unit                     ; }
+    inline uint16_t maxReadCoils             () const { return m_settings.maxReadCoils             ; }
+    inline uint16_t maxReadDiscreteInputs    () const { return m_settings.maxReadDiscreteInputs    ; }
+    inline uint16_t maxReadInputRegisters    () const { return m_settings.maxReadInputRegisters    ; }
+    inline uint16_t maxReadHoldingRegisters  () const { return m_settings.maxReadHoldingRegisters  ; }
+    inline uint16_t maxWriteMultipleCoils    () const { return m_settings.maxWriteMultipleCoils    ; }
+    inline uint16_t maxWriteMultipleRegisters() const { return m_settings.maxWriteMultipleRegisters; }
+    inline uint8_t  funcWriteSingleCoil      () const { return m_settings.funcWriteSingleCoil      ; }
+    inline uint8_t  funcWriteSingleRegister  () const { return m_settings.funcWriteSingleRegister  ; }
 
 public:
     void pushItemsToRead(const QList<mbClientRunItem*> &itemsToRead);
@@ -79,6 +81,8 @@ private:
         uint16_t maxReadHoldingRegisters  ;
         uint16_t maxWriteMultipleCoils    ;
         uint16_t maxWriteMultipleRegisters;
+        uint8_t  funcWriteSingleCoil      ;
+        uint8_t  funcWriteSingleRegister  ;
     } m_settings;
 
 private:

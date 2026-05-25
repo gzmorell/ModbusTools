@@ -37,6 +37,8 @@ mbClientRunDevice::mbClientRunDevice(mbClientDevice *device)
     m_settings.maxReadHoldingRegisters   = m_device->maxReadHoldingRegisters  ();
     m_settings.maxWriteMultipleCoils     = m_device->maxWriteMultipleCoils    ();
     m_settings.maxWriteMultipleRegisters = m_device->maxWriteMultipleRegisters();
+    m_settings.funcWriteSingleCoil       = m_device->funcWriteSingleCoil      ();
+    m_settings.funcWriteSingleRegister   = m_device->funcWriteSingleRegister  ();
 }
 
 mbClientRunDevice::~mbClientRunDevice()

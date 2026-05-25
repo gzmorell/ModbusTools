@@ -185,11 +185,17 @@ bool mbClientDeviceRunnable::createWriteMessage()
                 switch (item->memoryType())
                 {
                 case Modbus::Memory_0x:
-                    m = new mbClientRunMessageWriteMultipleCoils(item, m_device->maxWriteMultipleCoils());
+                    if (m_device->funcWriteSingleCoil() == MBF_WRITE_SINGLE_COIL && item->count() == 1)
+                        m = new mbClientRunMessageWriteSingleCoil(item);
+                    else
+                        m = new mbClientRunMessageWriteMultipleCoils(item, m_device->maxWriteMultipleCoils());
                     pushWriteMessage(m);
                     break;
                 case Modbus::Memory_4x:
-                    m = new mbClientRunMessageWriteMultipleRegisters(item, m_device->maxWriteMultipleRegisters());
+                    if (m_device->funcWriteSingleRegister() == MBF_WRITE_SINGLE_REGISTER && item->count() == 1)
+                        m = new mbClientRunMessageWriteSingleRegister(item);
+                    else
+                        m = new mbClientRunMessageWriteMultipleRegisters(item, m_device->maxWriteMultipleRegisters());
                     pushWriteMessage(m);
                     break;
                 default:

@@ -27,9 +27,10 @@
 
 mbClientDevice::Strings::Strings() :
     mbCoreDevice::Strings(),
+    portName(QStringLiteral("portName")),
     unit    (QStringLiteral("unit")),
-    portName(QStringLiteral("portName"))
-
+    funcWriteSingleCoil    (QStringLiteral("funcWriteSingleCoil")),
+    funcWriteSingleRegister(QStringLiteral("funcWriteSingleRegister"))
 {
 }
 
@@ -41,8 +42,10 @@ const mbClientDevice::Strings &mbClientDevice::Strings::instance()
 
 mbClientDevice::Defaults::Defaults() :
     mbCoreDevice::Defaults(),
-    unit(Modbus::Defaults::instance().unit),
-    portName(mbClientPort::Defaults::instance().name)
+    portName               (mbClientPort::Defaults::instance().name),
+    unit                   (Modbus::Defaults::instance().unit),
+    funcWriteSingleCoil    (MBF_WRITE_MULTIPLE_COILS),
+    funcWriteSingleRegister(MBF_WRITE_MULTIPLE_REGISTERS)
 {
 }
 
@@ -105,8 +108,10 @@ MBSETTINGS mbClientDevice::settings() const
 
     MBSETTINGS r = mbCoreDevice::settings();
 
-    r.insert(s.unit    , unit    ());
-    r.insert(s.portName, portName());
+    r.insert(s.portName               , portName               ());
+    r.insert(s.unit                   , unit                   ());
+    r.insert(s.funcWriteSingleCoil    , funcWriteSingleCoil    ());
+    r.insert(s.funcWriteSingleRegister, funcWriteSingleRegister());
 
     return r;
 }
@@ -119,6 +124,13 @@ bool mbClientDevice::setSettings(const MBSETTINGS &settings)
     MBSETTINGS::const_iterator end = settings.end();
     bool ok;
 
+    it = settings.find(s.portName);
+    if (it != end)
+    {
+        QVariant var = it.value();
+        setPortName(var.toString());
+    }
+
     it = settings.find(s.unit);
     if (it != end)
     {
@@ -128,11 +140,22 @@ bool mbClientDevice::setSettings(const MBSETTINGS &settings)
             setUnit(v);
     }
 
-    it = settings.find(s.portName);
+    it = settings.find(s.funcWriteSingleCoil);
     if (it != end)
     {
         QVariant var = it.value();
-        setPortName(var.toString());
+        uint8_t v = static_cast<uint8_t>(var.toUInt(&ok));
+        if (ok)
+            setFuncWriteSingleCoil(v);
+    }
+
+    it = settings.find(s.funcWriteSingleRegister);
+    if (it != end)
+    {
+        QVariant var = it.value();
+        uint8_t v = static_cast<uint8_t>(var.toUInt(&ok));
+        if (ok)
+            setFuncWriteSingleRegister(v);
     }
 
     mbCoreDevice::setSettings(settings); // Q_EMIT changed() within

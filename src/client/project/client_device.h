@@ -38,8 +38,10 @@ class mbClientDevice : public mbCoreDevice
 public:
     struct Strings : public mbCoreDevice::Strings
     {
-        const QString unit    ;
-        const QString portName;
+        const QString portName               ;
+        const QString unit                   ;
+        const QString funcWriteSingleCoil    ;
+        const QString funcWriteSingleRegister;
 
         Strings();
         static const Strings &instance();
@@ -47,8 +49,10 @@ public:
 
     struct Defaults : public mbCoreDevice::Defaults
     {
-        const uint8_t unit    ;
-        const QString portName;
+        const QString portName               ;
+        const uint8_t unit                   ;
+        const uint8_t funcWriteSingleCoil    ;
+        const uint8_t funcWriteSingleRegister;
 
         Defaults();
         static const Defaults &instance();
@@ -78,10 +82,14 @@ public:
 public: // settings
     inline QString name() const { return objectName(); }
     void setName(const QString& name);
-    inline uint8_t unit() const { return m_settings.unit; }
-    inline void setUnit(uint8_t unit) { m_settings.unit = unit; }
     QString portName() const;
     void setPortName(const QString &portName);
+    inline uint8_t unit() const { return m_settings.unit; }
+    inline void setUnit(uint8_t unit) { m_settings.unit = unit; }
+    inline uint8_t funcWriteSingleCoil() const { return m_settings.funcWriteSingleCoil; }
+    inline void setFuncWriteSingleCoil(uint8_t funcWriteSingleCoil) { m_settings.funcWriteSingleCoil = funcWriteSingleCoil; }
+    inline uint8_t funcWriteSingleRegister() const { return m_settings.funcWriteSingleRegister; }
+    inline void setFuncWriteSingleRegister(uint8_t funcWriteSingleRegister) { m_settings.funcWriteSingleRegister = funcWriteSingleRegister; }
 
     MBSETTINGS settings() const override;
     bool setSettings(const MBSETTINGS &settings) override;
@@ -99,8 +107,10 @@ private:
 private: // settings
     struct
     {
-        uint8_t unit    ;
         QString portName;
+        uint8_t unit    ;
+        uint8_t funcWriteSingleCoil;
+        uint8_t funcWriteSingleRegister;
     } m_settings;
 };
 
