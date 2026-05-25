@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13) # 2.2 - case insensitive syntax
                                      # 3.13 included policy CMP0077
 
-project(ModbusTools VERSION 0.5.0 LANGUAGES CXX)
+project(ModbusTools VERSION 0.5.1 LANGUAGES CXX)
 
 set(MBTOOLS_VERSION ${PROJECT_VERSION})
 set(MBTOOLS_ROOT_DIR ${CMAKE_SOURCE_DIR})

@@ -15,10 +15,10 @@ MBTOOLS_VERSION_MAJOR = 0
 MBTOOLS_VERSION_MINOR = 5
 
 # Patch part of mbtools version
-MBTOOLS_VERSION_PATCH = 0
+MBTOOLS_VERSION_PATCH = 1
 
 # Integer representation of mbtools version
-MBTOOLS_VERSION_INT = (0 << 16) | (5 << 8) | 0
+MBTOOLS_VERSION_INT = (0 << 16) | (5 << 8) | 1
 
 # String representation of mbtools version
-MBTOOLS_VERSION_STR = "0.5.0"
+MBTOOLS_VERSION_STR = "0.5.1"
