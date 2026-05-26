@@ -37,6 +37,7 @@
 mbClientDialogDevice::Strings::Strings() :
     mbCoreDialogDevice::Strings(),
     createDeviceForPort(QStringLiteral("create_device_for_port")),
+    portIndex          (QStringLiteral("portIndex")),  
     portName           (QStringLiteral("portName"))
 {
 }
@@ -52,6 +53,8 @@ mbClientDialogDevice::mbClientDialogDevice(QWidget *parent) :
     ui(new Ui::mbClientDialogDevice)
 {
     ui->setupUi(this);
+
+    m_currentPortIndex = -1;
 
     QStringList ls;
 
@@ -212,7 +215,8 @@ MBSETTINGS mbClientDialogDevice::cachedSettings() const
     const QString &prefix = Strings().cachePrefix;
 
     MBSETTINGS m = mbCoreDialogDevice::cachedSettings();
-
+    
+    m[prefix+ds.portIndex               ] = ui->cmbPort                     ->currentIndex();
     m[prefix+ds.portName                ] = ui->lnPortName                  ->text       ();
     m[prefix+dv.unit                    ] = ui->spUnit                      ->value      ();
     m[prefix+ms.type                    ] = ui->cmbPortType                 ->currentText();
@@ -246,20 +250,22 @@ void mbClientDialogDevice::setCachedSettings(const MBSETTINGS &m)
     MBSETTINGS::const_iterator it;
     MBSETTINGS::const_iterator end = m.end();
 
-    it = m.find(prefix+ds.portName               ); if (it != end)  ui->lnPortName       ->setText       (it.value().toString());
-    it = m.find(prefix+dv.unit                   ); if (it != end)  ui->spUnit           ->setValue      (it.value().toInt   ());
-    it = m.find(prefix+ms.type                   ); if (it != end)  ui->cmbPortType      ->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.serialPortName         ); if (it != end)  ui->cmbSerialPortName->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.baudRate               ); if (it != end)  ui->cmbBaudRate      ->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.dataBits               ); if (it != end)  ui->cmbDataBits      ->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.parity                 ); if (it != end)  ui->cmbParity        ->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.stopBits               ); if (it != end)  ui->cmbStopBits      ->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.flowControl            ); if (it != end)  ui->cmbFlowControl   ->setCurrentText(it.value().toString());
-    it = m.find(prefix+ss.timeoutFirstByte       ); if (it != end)  ui->spTimeoutFB      ->setValue      (it.value().toInt   ());
-    it = m.find(prefix+ss.timeoutInterByte       ); if (it != end)  ui->spTimeoutIB      ->setValue      (it.value().toInt   ());
-    it = m.find(prefix+ss.host                   ); if (it != end)  ui->lnHost           ->setText       (it.value().toString());
-    it = m.find(prefix+ss.port                   ); if (it != end)  ui->spPort           ->setValue      (it.value().toInt   ());
-    it = m.find(prefix+ss.timeout                ); if (it != end)  ui->spTimeout        ->setValue      (it.value().toInt   ());
+    it = m.find(prefix+ds.portIndex              ); if (it != end)  m_currentPortIndex = it.value().toInt();
+
+    it = m.find(prefix+ds.portName               ); if (it != end)  ui->lnPortName       ->setText        (it.value().toString());
+    it = m.find(prefix+dv.unit                   ); if (it != end)  ui->spUnit           ->setValue       (it.value().toInt   ());
+    it = m.find(prefix+ms.type                   ); if (it != end)  ui->cmbPortType      ->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.serialPortName         ); if (it != end)  ui->cmbSerialPortName->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.baudRate               ); if (it != end)  ui->cmbBaudRate      ->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.dataBits               ); if (it != end)  ui->cmbDataBits      ->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.parity                 ); if (it != end)  ui->cmbParity        ->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.stopBits               ); if (it != end)  ui->cmbStopBits      ->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.flowControl            ); if (it != end)  ui->cmbFlowControl   ->setCurrentText (it.value().toString());
+    it = m.find(prefix+ss.timeoutFirstByte       ); if (it != end)  ui->spTimeoutFB      ->setValue       (it.value().toInt   ());
+    it = m.find(prefix+ss.timeoutInterByte       ); if (it != end)  ui->spTimeoutIB      ->setValue       (it.value().toInt   ());
+    it = m.find(prefix+ss.host                   ); if (it != end)  ui->lnHost           ->setText        (it.value().toString());
+    it = m.find(prefix+ss.port                   ); if (it != end)  ui->spPort           ->setValue       (it.value().toInt   ());
+    it = m.find(prefix+ss.timeout                ); if (it != end)  ui->spTimeout        ->setValue       (it.value().toInt   ());
 
     it = m.find(prefix+dv.funcWriteSingleCoil);
     if (it != end)
@@ -349,6 +355,11 @@ void mbClientDialogDevice::fillData(MBSETTINGS &m) const
 
 void mbClientDialogDevice::fillPortNames()
 {
+    int i = ui->cmbPort->currentIndex();
+    if (i < 0)
+        i = m_currentPortIndex;
+    else
+        m_currentPortIndex = i;
     ui->cmbPort->clear();
     mbClientProject *project = mbClient::global()->project();
     if (project)
@@ -357,6 +368,8 @@ void mbClientDialogDevice::fillPortNames()
         QList<mbClientPort*> ports = project->ports();
         Q_FOREACH (mbClientPort *port, ports)
             ui->cmbPort->addItem(port->name());
+        if (i > 0 && i < ui->cmbPort->count())
+            ui->cmbPort->setCurrentIndex(i);
     }
 }
 

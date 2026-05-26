@@ -37,6 +37,7 @@ public:
     struct Strings : public mbCoreDialogDevice::Strings
     {
         const QString createDeviceForPort;
+        const QString portIndex;
         const QString portName;
         Strings();
         static const Strings &instance();
@@ -70,6 +71,7 @@ private Q_SLOTS:
 
 private:
     Ui::mbClientDialogDevice *ui;
+    int m_currentPortIndex;
 };
 
 #endif // CLIENT_DIALOGDEVICE_H
