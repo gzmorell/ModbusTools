@@ -69,6 +69,7 @@ mbClientDevice::mbClientDevice(QObject *parent) :
     Defaults d = Defaults();
 
     m_port = nullptr;
+    m_enabled = true;
 
     m_stat = new Statistics;
 

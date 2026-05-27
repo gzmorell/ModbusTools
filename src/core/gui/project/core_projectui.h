@@ -55,6 +55,7 @@ Q_SIGNALS:
     void portDoubleClick(mbCorePort *port);
     void portContextMenu(mbCorePort *port);
     void currentPortChanged(mbCorePort *port);
+    void currentDeviceChanged(mbCoreDevice *device);
 
 protected Q_SLOTS:
     void customContextMenu(const QPoint &pos);
@@ -69,9 +70,11 @@ protected Q_SLOTS:
 
 protected:
     void setCurrentPort(mbCorePort *port);
-
+    void setCurrentDevice(mbCoreDevice *device);
+    
 protected:
     mbCorePort *m_currentPort;
+    mbCoreDevice *m_currentDevice;
     mbCoreProjectTreeView *m_view;
     mbCoreProjectModel *m_model;
     mbCoreProjectDelegate *m_delegate;

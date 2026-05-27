@@ -27,6 +27,7 @@
 #include <QReadWriteLock>
 
 #include <client_global.h>
+#include <project/client_device.h>
 
 class mbClientDevice;
 class mbClientRunItem;
@@ -39,6 +40,7 @@ public:
 
 public:
     mbClientDevice* device() const { return m_device; }
+    inline bool isEnabled() const { return m_device->isEnabled(); }
 
 public: // settings
     inline QString  name                     () const { return m_settings.name                     ; }

@@ -134,7 +134,13 @@ void mbCoreProjectUi::selectionChanged(const QItemSelection &selected, const QIt
 {
     QModelIndexList ls = selected.indexes();
     if (ls.count())
-        setCurrentPort(m_model->getPortByIndex(ls.first()));
+    {
+        auto index = ls.first();
+        auto *port = m_model->getPortByIndex(index);
+        auto *device = m_model->getDeviceByIndex(index);
+        setCurrentPort(port);
+        setCurrentDevice(device);
+    }
 }
 
 void mbCoreProjectUi::setProject(mbCoreProject *project)
@@ -157,7 +163,10 @@ void mbCoreProjectUi::setProject(mbCoreProject *project)
             portAdd(p);
     }
     else
+    {
         setCurrentPort(nullptr);
+        setCurrentDevice(nullptr);
+    }
 }
 
 void mbCoreProjectUi::portAdd(mbCorePort *port)
@@ -193,5 +202,14 @@ void mbCoreProjectUi::setCurrentPort(mbCorePort *port)
     {
         m_currentPort = port;
         Q_EMIT currentPortChanged(port);
+    }
+}
+
+void mbCoreProjectUi::setCurrentDevice(mbCoreDevice *device)
+{
+    if (m_currentDevice != device)
+    {
+        m_currentDevice = device;
+        Q_EMIT currentDeviceChanged(device);
     }
 }

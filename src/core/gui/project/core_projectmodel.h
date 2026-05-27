@@ -72,6 +72,8 @@ public:
     virtual mbCorePort *getPortByIndex(const QModelIndex &index) const;
 
 public:
+    virtual QModelIndex deviceIndex(mbCoreDevice *device) const;
+    virtual mbCoreDevice *deviceCore(const QModelIndex &index) const;
     virtual mbCoreDevice *getDeviceByIndex(const QModelIndex &index) const;
 
 public:

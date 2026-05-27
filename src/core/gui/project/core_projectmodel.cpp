@@ -173,9 +173,24 @@ mbCorePort *mbCoreProjectModel::getPortByIndex(const QModelIndex &index) const
     return portCore(index);
 }
 
-mbCoreDevice *mbCoreProjectModel::getDeviceByIndex(const QModelIndex &/*index*/) const
+QModelIndex mbCoreProjectModel::deviceIndex(mbCoreDevice *device) const
+{
+    if (m_project)
+    {
+        int i = m_project->deviceIndex(device);
+        return createIndex(i, 0, device);
+    }
+    return QModelIndex();
+}
+
+mbCoreDevice *mbCoreProjectModel::deviceCore(const QModelIndex &index) const
 {
     return nullptr;
+}
+
+mbCoreDevice *mbCoreProjectModel::getDeviceByIndex(const QModelIndex &index) const
+{
+    return deviceCore(index);
 }
 
 void mbCoreProjectModel::portAdd(mbCorePort *port)

@@ -90,7 +90,12 @@ QVariant mbClientProjectModel::data(const QModelIndex &index, int role) const
         if (mbClientPort *p = port(index))
             return QIcon(":/core/icons/port.png");
         if (mbClientDevice *d = device(index))
-            return QIcon(":/core/icons/device.png");
+        {
+            if (d->isEnabled())
+                return QIcon(":/core/icons/device.png");
+            else
+                return QIcon(":/core/icons/device_disable.png");
+        }
         break;
     }
     return QVariant();
@@ -112,18 +117,28 @@ mbCoreDevice *mbClientProjectModel::getDeviceByIndex(const QModelIndex &index) c
     return device(index);
 }
 
-QModelIndex mbClientProjectModel::deviceIndex(mbClientDevice *device) const
+QModelIndex mbClientProjectModel::deviceIndex(mbCoreDevice *device) const
 {
-    mbClientPort *port = device->port();
-    int i = port->deviceIndex(device);
-    return createIndex(i, 0, port);
+    if (m_project)
+    {
+        auto *d = static_cast<mbClientDevice*>(device);
+        mbClientPort *port = d->port();
+        int i = port->deviceIndex(d);
+        return createIndex(i, 0, d);
+    }
+    return QModelIndex();
+}
+
+mbCoreDevice *mbClientProjectModel::deviceCore(const QModelIndex &index) const
+{
+    if (index.parent().isValid())
+        return reinterpret_cast<mbCoreDevice*>(index.internalPointer());
+    return nullptr;
 }
 
 mbClientDevice *mbClientProjectModel::device(const QModelIndex &index) const
 {
-    if (index.parent().isValid())
-        return reinterpret_cast<mbClientDevice*>(index.internalPointer());
-    return nullptr;
+    return static_cast<mbClientDevice*>(deviceCore(index));
 }
 
 QString mbClientProjectModel::deviceName(const mbClientDevice *device) const

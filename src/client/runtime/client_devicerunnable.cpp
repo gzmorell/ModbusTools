@@ -65,6 +65,8 @@ void mbClientDeviceRunnable::run()
         switch (m_state)
         {
         case STATE_PAUSE:
+            if (!m_device->isEnabled())
+                break;
             if (m_device->hasExternalMessage())
             {
                 m_device->popExternalMessage(&m_currentMessage);

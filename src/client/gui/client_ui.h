@@ -98,6 +98,7 @@ private Q_SLOTS:
     void menuSlotDeviceDelete() override;
     void menuSlotDeviceImport() override;
     void menuSlotDeviceExport() override;
+    void menuSlotDeviceEnable();
     // ----------------------------
     // ----------DATA VIEW---------
     // ----------------------------
@@ -122,6 +123,8 @@ private Q_SLOTS:
 
 private Q_SLOTS:
     void contextMenuDevice(mbClientDevice *device);
+    void changeCurrentDevice(mbCoreDevice *device);
+    void setDeviceEnabled(bool enable);
 
 private:
     void editPort(mbCorePort *port);
@@ -137,6 +140,8 @@ private:
     mbClientSendMessageUi *m_sendMessageUi;
     mbClientSendBytesUi *m_sendBytesUi;
     mbClientScannerUi *m_scannerUi;
+    mbClientDevice *m_currentDevice;
+
 };
 
 

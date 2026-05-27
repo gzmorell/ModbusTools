@@ -25,5 +25,6 @@
         <file>icons/device_small.png</file>
         <file>icons/minus.png</file>
         <file>icons/plus.png</file>
+        <file>icons/device_disable.png</file>
     </qresource>
 </RCC>

@@ -52,7 +52,8 @@ public:
     mbCoreDevice *getDeviceByIndex(const QModelIndex &index) const override;
 
 public:
-    QModelIndex deviceIndex(mbClientDevice *device) const;
+    QModelIndex deviceIndex(mbCoreDevice *device) const override;
+    mbCoreDevice *deviceCore(const QModelIndex &index) const override;
     mbClientDevice *device(const QModelIndex &index) const;
 
 protected:

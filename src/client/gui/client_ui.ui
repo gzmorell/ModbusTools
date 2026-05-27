@@ -14,7 +14,7 @@
    <string>Client</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="client_rsc.qrc">
+   <iconset>
     <normaloff>:/client/icons/client.ico</normaloff>:/client/icons/client.ico</iconset>
   </property>
   <property name="dockNestingEnabled">
@@ -85,6 +85,8 @@
     <addaction name="separator"/>
     <addaction name="actionDeviceImport"/>
     <addaction name="actionDeviceExport"/>
+    <addaction name="separator"/>
+    <addaction name="actionDeviceEnable"/>
     <addaction name="separator"/>
     <addaction name="actionDeviceStatistics"/>
    </widget>
@@ -651,6 +653,11 @@
   <action name="actionWindowStatisticsCloseAll">
    <property name="text">
     <string>Close All</string>
+   </property>
+  </action>
+  <action name="actionDeviceEnable">
+   <property name="text">
+    <string>Enable</string>
    </property>
   </action>
  </widget>
