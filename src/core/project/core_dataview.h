@@ -80,7 +80,7 @@ public:
 
 public:
     inline mbCoreDevice *deviceCore() const { return m_device; }
-    inline void setDeviceCore(mbCoreDevice *device) { m_device = device; }
+    virtual void setDeviceCore(mbCoreDevice *device);
     inline mbCoreDataView *dataViewCore() const { return m_dataView; }
     inline void setDataViewCore(mbCoreDataView *view) { m_dataView = view; }
 

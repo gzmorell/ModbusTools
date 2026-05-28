@@ -170,6 +170,8 @@ void mbClientUi::initialize()
 
     // Menu Device
     ui->actionDeviceEnable->setCheckable(true);
+    ui->actionDeviceEnable->setShortcut (QKeySequence(Qt::ALT | Qt::Key_E));
+
     connect(ui->actionDeviceEnable, &QAction::triggered, this, &mbClientUi::menuSlotDeviceEnable);
 
     // Menu Tools

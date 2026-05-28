@@ -92,6 +92,11 @@ mbCoreDataViewItem::mbCoreDataViewItem(QObject *parent) : QObject(parent)
     m_isDefaultStringEncoding = true;
 }
 
+void mbCoreDataViewItem::setDeviceCore(mbCoreDevice * device)
+{
+    m_device = device;
+}
+
 int mbCoreDataViewItem::bitLength() const
 {
     switch (m_address.type())

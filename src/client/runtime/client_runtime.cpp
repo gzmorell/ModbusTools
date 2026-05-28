@@ -164,6 +164,8 @@ void mbClientRuntime::writeItemData(mb::Client::ItemHandle_t handle, const QByte
         return;
     mbClientDataViewItem *item = handle;
     mbClientDevice *d = item->device();
+    if (!d->isEnabled())
+        return;
     mbClientRunDevice *rd = m_devices.value(d);
     if (rd)
     {

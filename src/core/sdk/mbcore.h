@@ -308,7 +308,8 @@ enum StatusCode
 {
     Status_Mb             = 0x80000000,
     Status_MbStopped      = Status_Mb | 1,
-    Status_MbInitializing = Status_Mb | 2
+    Status_MbInitializing = Status_Mb | 2,
+    Status_MbDisabled     = Status_Mb | 3
     // next values is Modbus::StatusCode-s except Status_Processing
 };
 

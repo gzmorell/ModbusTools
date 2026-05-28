@@ -75,6 +75,8 @@ QVariant mbClientDataViewModel::data(const QModelIndex &index, int role) const
                 int status = d->status();
                 if (status == mb::Status_MbStopped)
                     return QBrush(QColor(0xF0, 0xF0, 0xF0));
+                if (status == mb::Status_MbDisabled)
+                    return QBrush(Qt::yellow);
                 if (status == mb::Status_MbInitializing)
                     return QBrush(Qt::lightGray);
                 if (Modbus::StatusIsGood(static_cast<Modbus::StatusCode>(status)))

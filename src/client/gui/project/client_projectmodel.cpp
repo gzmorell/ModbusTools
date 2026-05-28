@@ -201,6 +201,7 @@ void mbClientProjectModel::deviceAdd(mbClientDevice *device)
     int i = port->deviceIndex(device);
     beginInsertRows(portIndex(port), i, i);
     connect(device, &mbClientDevice::nameChanged, this, &mbClientProjectModel::deviceChanged);
+    connect(device, &mbClientDevice::enabledChanged, this, &mbClientProjectModel::deviceChanged);
     endInsertRows();
 }
 

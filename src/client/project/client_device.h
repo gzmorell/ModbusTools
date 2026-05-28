@@ -79,7 +79,7 @@ public:
     inline mbClientProject* project() const { return reinterpret_cast<mbClientProject*>(mbCoreDevice::projectCore()); }
     inline void setProject(mbClientProject* project) { mbCoreDevice::setProjectCore(reinterpret_cast<mbCoreProject*>(project)); }
     inline bool isEnabled() const { return m_enabled; }
-    void setEnabled(bool enable) { m_enabled = enable; }
+    void setEnabled(bool enable);
     inline void toogleEnabled() { setEnabled(!m_enabled); }
 
 public: // settings

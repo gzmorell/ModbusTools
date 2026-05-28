@@ -23,6 +23,7 @@
 #include "client_dataview.h"
 
 #include "client.h"
+#include "client_device.h"
 
 mbClientDataViewItem::Strings::Strings() :
     mbCoreDataViewItem::Strings(),
@@ -55,6 +56,21 @@ mbClientDataViewItem::mbClientDataViewItem(QObject *parent) :
     m_status = mb::Status_MbStopped;
     m_timestamp = mb::currentTimestamp();
     m_cache = toVariant(m_value);
+}
+
+void mbClientDataViewItem::setDeviceCore(mbCoreDevice *device)
+{
+    if (m_device != device)
+    {
+        if (m_device)
+            m_device->disconnect(this);
+        m_device = device;
+        if (m_device)
+        {
+            connect(static_cast<mbClientDevice*>(m_device.data()), &mbClientDevice::enabledChanged, this, &mbClientDataViewItem::changed);
+        }
+        Q_EMIT changed();
+    }
 }
 
 void mbClientDataViewItem::setFormat(mb::Format format)
@@ -176,12 +192,20 @@ void mbClientDataViewItem::setValue(const QVariant &value)
     {
         if (mbClient::global()->isRunning())
         {
-            if (!isReadOnly() && m_device)
+            if (!isReadOnly() && m_device && static_cast<mbClientDevice*>(m_device.data())->isEnabled())
                 mbClient::global()->writeItemData(handle(), data);
         }
         else
             update(data, mb::Status_MbStopped, mb::currentTimestamp());
     }
+}
+
+mb::StatusCode mbClientDataViewItem::status() const
+{
+    // TODO: make thread safe
+    if (m_device && !static_cast<mbClientDevice*>(m_device.data())->isEnabled())
+        return mb::Status_MbDisabled;
+    return m_status;    
 }
 
 void mbClientDataViewItem::update(const QByteArray &value, mb::StatusCode status, mb::Timestamp_t timestamp)

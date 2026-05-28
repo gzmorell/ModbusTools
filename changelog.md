@@ -225,3 +225,8 @@ List of changes of new v0.4 version of ModbusTools:
 * Renamed project file extensions `pjc`/`pjs` into `mbc`/`mbs`
 * Renamed `core`/`client`/`server` into `mbcore`/`mbclient`/`mbserver`
 * Added cmake option to separate client and server compilation
+
+# 0.5.1
+
+* Added device settings for write function of  single coil/reg
+* Added enable/disable for mbclient device

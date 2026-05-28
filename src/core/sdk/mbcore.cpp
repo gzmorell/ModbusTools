@@ -541,6 +541,7 @@ QString toString(StatusCode status)
     {
     case Status_MbStopped     : return QStringLiteral("Stopped");
     case Status_MbInitializing: return QStringLiteral("Initializing");
+    case Status_MbDisabled    : return QStringLiteral("Disabled");
     default:
         return Modbus::toString(static_cast<Modbus::StatusCode>(status));
     }

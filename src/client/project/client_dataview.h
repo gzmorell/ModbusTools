@@ -61,6 +61,7 @@ public:
     inline bool isReadOnly() const { return m_address.type() == Modbus::Memory_1x || m_address.type() == Modbus::Memory_3x; }
 
 public: // settings
+    void setDeviceCore(mbCoreDevice *device) override;
     inline mbClientDevice *device() const { return reinterpret_cast<mbClientDevice*>(deviceCore()); }
     inline void setDevice(mbClientDevice *device) { setDeviceCore(reinterpret_cast<mbCoreDevice*>(device)); }
 
@@ -78,7 +79,7 @@ public:
     void setValue(const QVariant& value) override;
 
 public:
-    inline mb::StatusCode status() const { return m_status; }        // TODO: make thread safe
+    mb::StatusCode status() const;
     inline mb::Timestamp_t timestamp() const { return m_timestamp; } // TODO: make thread safe
     void update(const QByteArray &data, mb::StatusCode status, mb::Timestamp_t timestamp);
     inline void update(mb::StatusCode status, mb::Timestamp_t timestamp) { update(QByteArray(), status, timestamp); }

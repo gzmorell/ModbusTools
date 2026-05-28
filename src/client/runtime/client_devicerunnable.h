@@ -69,7 +69,7 @@ private:
     bool popWriteMessage(mbClientRunMessagePtr *message);
 
 private:
-    bool hasReadMessageOnDuty();
+    bool checkReadMessageOnDuty();
 
 private:
     Modbus::StatusCode execExternalMessage();

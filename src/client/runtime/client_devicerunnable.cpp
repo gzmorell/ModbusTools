@@ -58,37 +58,48 @@ void mbClientDeviceRunnable::run()
 {
     createWriteMessage();
     Modbus::StatusCode r;
-    bool fRepeat;
     do
     {
-        fRepeat = false;
         switch (m_state)
         {
         case STATE_PAUSE:
-            if (!m_device->isEnabled())
-                break;
             if (m_device->hasExternalMessage())
             {
                 m_device->popExternalMessage(&m_currentMessage);
-                m_currentMessage->prepareToSend();
-                m_state = STATE_EXEC_EXTERNAL;
-                fRepeat = true;
+                if (m_device->isEnabled())
+                {
+                    m_currentMessage->prepareToSend();
+                    m_state = STATE_EXEC_EXTERNAL;
+                    continue;
+                }
+                else
+                {
+                    m_currentMessage->setComplete(Modbus::Status_Bad, QDateTime::currentMSecsSinceEpoch());
+                    m_currentMessage = nullptr;
+                }
                 break;
             }
             if (hasWriteMessage())
             {
                 popWriteMessage(&m_currentMessage);
-                m_currentMessage->prepareToSend();
-                m_state = STATE_EXEC_WRITE;
-                fRepeat = true;
+                if (m_device->isEnabled())
+                {
+                    m_currentMessage->prepareToSend();
+                    m_state = STATE_EXEC_WRITE;
+                    continue;
+                }
+                else
+                {
+                    m_currentMessage->setComplete(Modbus::Status_Bad, QDateTime::currentMSecsSinceEpoch());
+                    m_currentMessage = nullptr;
+                }
                 break;
             }
-            if (hasReadMessageOnDuty())
+            if (m_device->isEnabled() && checkReadMessageOnDuty())
             {
                 m_state = STATE_EXEC_READ;
                 m_currentMessage->prepareToSend();
-                fRepeat = true;
-                break;
+                continue;
             }
             break;
         case STATE_EXEC_EXTERNAL:
@@ -113,8 +124,9 @@ void mbClientDeviceRunnable::run()
             m_state = STATE_PAUSE;
             break;
         }
+        break;
     }
-    while (fRepeat);
+    while (1);
 }
 
 void mbClientDeviceRunnable::createReadMessages()
@@ -228,7 +240,7 @@ bool mbClientDeviceRunnable::popWriteMessage(mbClientRunMessagePtr *message)
     return false;
 }
 
-bool mbClientDeviceRunnable::hasReadMessageOnDuty()
+bool mbClientDeviceRunnable::checkReadMessageOnDuty()
 {
     if (m_currentMessage)
            return true;
