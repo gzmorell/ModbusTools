@@ -781,6 +781,47 @@ void changeByteOrder(void *data, int len)
     }
 }
 
+void swapRegisters32(void *buff)
+{
+    uint16_t t;
+    t = reinterpret_cast<uint16_t*>(buff)[0];
+    reinterpret_cast<uint16_t*>(buff)[0] = reinterpret_cast<const uint16_t*>(buff)[1];
+    reinterpret_cast<uint16_t*>(buff)[1] = t;
+}
+
+void swapRegisters64(void *buff, RegisterOrder order)
+{
+    switch (order)
+    {
+    case R3R2R1R0:
+    {
+        uint16_t t;
+        uint16_t *r = reinterpret_cast<uint16_t*>(buff);
+        t = r[0]; r[0] = r[3]; r[3] = t;
+        t = r[1]; r[1] = r[2]; r[2] = t;
+    }
+        break;
+    case R2R3R0R1:
+    {
+        uint16_t t;
+        uint16_t *r = reinterpret_cast<uint16_t*>(buff);
+        t = r[0]; r[0] = r[2]; r[2] = t;
+        t = r[1]; r[1] = r[3]; r[3] = t;
+    }
+        break;
+    case R1R0R3R2:
+    {
+        uint16_t t;
+        uint16_t *r = reinterpret_cast<uint16_t*>(buff);
+        t = r[0]; r[0] = r[1]; r[1] = t;
+        t = r[2]; r[2] = r[3]; r[3] = t;
+    }
+        break;
+    default:
+        break;
+    }
+}
+
 QByteArray toByteArray(const QVariant &value, Format format, Modbus::MemoryType memoryType, SwapData swapBytes, RegisterOrder registerOrder, DigitalFormat byteArrayFormat, const StringEncoding &stringEncoding, StringLengthType stringLengthType, const QString &byteArraySeparator, int variableLength)
 {
     bool ok;
@@ -866,22 +907,22 @@ QByteArray toByteArray(const QVariant &value, Format format, Modbus::MemoryType 
         break;
     case Oct64:
         *reinterpret_cast<quint64*>(v) = static_cast<quint64>(value.toString().toULongLong(&ok, 8));
-        swapRegisters64(&v, registerOrder);
+        swapRegisters64(v, registerOrder);
         sz = sizeof(quint64);
         break;
     case Dec64:
         *reinterpret_cast<qint64*>(v) = static_cast<qint64>(value.toLongLong());
-        swapRegisters64(&v, registerOrder);
+        swapRegisters64(v, registerOrder);
         sz = sizeof(qint64);
         break;
     case UDec64:
         *reinterpret_cast<quint64*>(v) = static_cast<quint64>(value.toULongLong());
-        swapRegisters64(&v, registerOrder);
+        swapRegisters64(v, registerOrder);
         sz = sizeof(quint64);
         break;
     case Hex64:
         *reinterpret_cast<quint64*>(v) = static_cast<quint64>(value.toString().toULongLong(&ok, 16));
-        swapRegisters64(&v, registerOrder);
+        swapRegisters64(v, registerOrder);
         sz = sizeof(quint64);
         break;
     case Double:

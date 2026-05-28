@@ -632,49 +632,9 @@ MBTOOLS_EXPORT QList<quint8> toUnitsList(const QString &unitsStr, bool *ok = nul
 
 MBTOOLS_EXPORT void changeByteOrder(void *data, int len);
 
-inline void swapRegisters32(void *buff)
-{
-    reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-    reinterpret_cast<uint16_t*>(buff)[0] ^= reinterpret_cast<const uint16_t*>(buff)[1];
-    reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-}
+MBTOOLS_EXPORT void swapRegisters32(void *buff);
 
-
-inline void swapRegisters64(void *buff, RegisterOrder order)
-{
-    switch (order)
-    {
-    case R3R2R1R0:
-        reinterpret_cast<uint16_t*>(buff)[3] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-        reinterpret_cast<uint16_t*>(buff)[0] ^= reinterpret_cast<const uint16_t*>(buff)[3];
-        reinterpret_cast<uint16_t*>(buff)[3] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-
-        reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[2];
-        reinterpret_cast<uint16_t*>(buff)[2] ^= reinterpret_cast<const uint16_t*>(buff)[1];
-        reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[2];
-        break;
-    case R2R3R0R1:
-        reinterpret_cast<uint16_t*>(buff)[2] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-        reinterpret_cast<uint16_t*>(buff)[0] ^= reinterpret_cast<const uint16_t*>(buff)[2];
-        reinterpret_cast<uint16_t*>(buff)[2] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-
-        reinterpret_cast<uint16_t*>(buff)[3] ^= reinterpret_cast<const uint16_t*>(buff)[1];
-        reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[3];
-        reinterpret_cast<uint16_t*>(buff)[3] ^= reinterpret_cast<const uint16_t*>(buff)[1];
-        break;
-    case R1R0R3R2:
-        reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-        reinterpret_cast<uint16_t*>(buff)[0] ^= reinterpret_cast<const uint16_t*>(buff)[1];
-        reinterpret_cast<uint16_t*>(buff)[1] ^= reinterpret_cast<const uint16_t*>(buff)[0];
-
-        reinterpret_cast<uint16_t*>(buff)[3] ^= reinterpret_cast<const uint16_t*>(buff)[2];
-        reinterpret_cast<uint16_t*>(buff)[2] ^= reinterpret_cast<const uint16_t*>(buff)[3];
-        reinterpret_cast<uint16_t*>(buff)[3] ^= reinterpret_cast<const uint16_t*>(buff)[2];
-        break;
-    default:
-        break;
-    }
-}
+MBTOOLS_EXPORT void swapRegisters64(void *buff, RegisterOrder order);
 
 MBTOOLS_EXPORT QByteArray toByteArray(const QVariant &v,
                                  mb::Format format,
