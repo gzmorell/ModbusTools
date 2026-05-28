@@ -231,3 +231,4 @@ List of changes of new v0.4 version of ModbusTools:
 * Added device settings for write function of single coil/register
 * Added enable/disable for mbclient device (menu `Device/Enable`, context menu)
 * Fixed issue #70: Changing RegisterOrder doesn't affect the value
+* Fixed issue for client's device dialog, when Port type combobox was empty.
